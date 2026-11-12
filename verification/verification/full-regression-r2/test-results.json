@@ -1,0 +1,49 @@
+{
+  "time": "2026-11-12T16:12:57+08:00",
+  "run_id": "uf-20261112-sec-der-canonical",
+  "checks": {
+    "regression": {
+      "tests": null,
+      "passed": 1313,
+      "failures": 6,
+      "errors": 0,
+      "skipped": 0,
+      "failure_cases": [
+        "testInvalidFileContent",
+        "testMoreObjects",
+        "testOneObject",
+        "testGzip",
+        "testZipfile",
+        "testZipfileMany"
+      ],
+      "exit_code": 1,
+      "xfailed": 0,
+      "xpassed": 0,
+      "pytest_terminal_summary": {
+        "failed": 6,
+        "passed": 1313,
+        "subtests passed": 175
+      },
+      "junit_raw_counts": {
+        "tests": 1319,
+        "passed": 1313,
+        "failures": 6,
+        "errors": 0,
+        "skipped": 0,
+        "failure_cases": [
+          "testInvalidFileContent",
+          "testMoreObjects",
+          "testOneObject",
+          "testGzip",
+          "testZipfile",
+          "testZipfileMany"
+        ],
+        "exit_code": 1
+      },
+      "count_source": "pytest terminal summary; XML kept unchanged"
+    }
+  },
+  "artifact_hashes_unchanged": true,
+  "score": null,
+  "feedback": "PENDING_SEMANTIC_REVIEW"
+}

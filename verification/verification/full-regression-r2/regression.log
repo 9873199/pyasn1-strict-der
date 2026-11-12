@@ -1,0 +1,148 @@
+........................................................................ [  5%]
+........................................................................ [ 10%]
+........................................................................ [ 16%]
+.................................FFF.....FFF............................ [ 21%]
+........................................................................ [ 27%]
+........................................................................ [ 32%]
+........................................................................ [ 38%]
+........................................................................ [ 43%]
+........................................................................ [ 49%]
+........................................................................ [ 54%]
+......................................... [ 57%]
+........................................................................ [ 63%]
+........................................................................ [ 68%]
+........................................................................ [ 74%]
+........................................................................ [ 79%]
+........................................................................ [ 84%]
+........................................................................ [ 90%]
+........................................................................ [ 95%]
+......................................................                   [100%]
+================================== FAILURES ===================================
+__________________ BinaryFileTestCase.testInvalidFileContent __________________
+
+self = <tests.codec.ber.test_decoder.BinaryFileTestCase testMethod=testInvalidFileContent>
+
+    def testInvalidFileContent(self):
+        _, path = tempfile.mkstemp()
+        try:
+            with open(path, "wb") as out:
+                out.write(bytes((2, 1, 12, 35, 128, 3, 2, 0, 169, 3, 2, 1, 138, 0, 0, 7)))
+    
+            with open(path, "rb") as source:
+                list(decoder.StreamingDecoder(source))
+    
+        except error.EndOfStreamError:
+            pass
+    
+        finally:
+>           os.remove(path)
+E           PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\hc\\userFeedback\\cache\\tmp\\tmpim7ipu6x'
+
+tests\codec\ber\test_decoder.py:2154: PermissionError
+_____________________ BinaryFileTestCase.testMoreObjects ______________________
+
+self = <tests.codec.ber.test_decoder.BinaryFileTestCase testMethod=testMoreObjects>
+
+    def testMoreObjects(self):
+        _, path = tempfile.mkstemp()
+        try:
+            with open(path, "wb") as out:
+                out.write(bytes((2, 1, 12, 35, 128, 3, 2, 0, 169, 3, 2, 1, 138, 0, 0)))
+    
+            with open(path, "rb") as source:
+                values = list(decoder.StreamingDecoder(source))
+    
+            assert values == [12, (1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1)]
+    
+        finally:
+>           os.remove(path)
+E           PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\hc\\userFeedback\\cache\\tmp\\tmp3bzmibn1'
+
+tests\codec\ber\test_decoder.py:2139: PermissionError
+______________________ BinaryFileTestCase.testOneObject _______________________
+
+self = <tests.codec.ber.test_decoder.BinaryFileTestCase testMethod=testOneObject>
+
+    def testOneObject(self):
+        _, path = tempfile.mkstemp()
+        try:
+            with open(path, "wb") as out:
+                out.write(bytes((2, 1, 12)))
+    
+            with open(path, "rb") as source:
+                values = list(decoder.StreamingDecoder(source))
+    
+            assert values == [12]
+        finally:
+>           os.remove(path)
+E           PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\hc\\userFeedback\\cache\\tmp\\tmps9py4k4b'
+
+tests\codec\ber\test_decoder.py:2125: PermissionError
+______________________ CompressedFilesTestCase.testGzip _______________________
+
+self = <tests.codec.ber.test_decoder.CompressedFilesTestCase testMethod=testGzip>
+
+    def testGzip(self):
+        _, path = tempfile.mkstemp(suffix=".gz")
+        try:
+            with gzip.open(path, "wb") as out:
+                out.write(bytes((2, 1, 12, 35, 128, 3, 2, 0, 169, 3, 2, 1, 138, 0, 0)))
+    
+            with gzip.open(path, "rb") as source:
+                values = list(decoder.StreamingDecoder(source))
+    
+            assert values == [12, (1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1)]
+    
+        finally:
+>           os.remove(path)
+E           PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\hc\\userFeedback\\cache\\tmp\\tmpokktg8l6.gz'
+
+tests\codec\ber\test_decoder.py:2306: PermissionError
+_____________________ CompressedFilesTestCase.testZipfile _____________________
+
+self = <tests.codec.ber.test_decoder.CompressedFilesTestCase testMethod=testZipfile>
+
+    def testZipfile(self):
+        # It is a seekable stream.
+        _, path = tempfile.mkstemp(suffix=".zip")
+        try:
+            with zipfile.ZipFile(path, "w") as myzip:
+                myzip.writestr("data", bytes((2, 1, 12, 35, 128, 3, 2, 0, 169, 3, 2, 1, 138, 0, 0)))
+    
+            with zipfile.ZipFile(path, "r") as myzip:
+                with myzip.open("data", "r") as source:
+                    values = list(decoder.StreamingDecoder(source))
+                    assert values == [12, (1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1)]
+        finally:
+>           os.remove(path)
+E           PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\hc\\userFeedback\\cache\\tmp\\tmpnpxqwmvn.zip'
+
+tests\codec\ber\test_decoder.py:2320: PermissionError
+___________________ CompressedFilesTestCase.testZipfileMany ___________________
+
+self = <tests.codec.ber.test_decoder.CompressedFilesTestCase testMethod=testZipfileMany>
+
+    def testZipfileMany(self):
+        _, path = tempfile.mkstemp(suffix=".zip")
+        try:
+            with zipfile.ZipFile(path, "w") as myzip:
+                #for i in range(100):
+                myzip.writestr("data", bytes((2, 1, 12, 35, 128, 3, 2, 0, 169, 3, 2, 1, 138, 0, 0)) * 1000)
+    
+            with zipfile.ZipFile(path, "r") as myzip:
+                with myzip.open("data", "r") as source:
+                    values = list(decoder.StreamingDecoder(source))
+                    assert values == [12, (1, 0, 1, 0, 1, 0, 0, 1, 1, 0, 0, 0, 1, 0, 1)] * 1000
+        finally:
+>           os.remove(path)
+E           PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\hc\\userFeedback\\cache\\tmp\\tmp3k50842k.zip'
+
+tests\codec\ber\test_decoder.py:2334: PermissionError
+=========================== short test summary info ===========================
+FAILED tests/codec/ber/test_decoder.py::BinaryFileTestCase::testInvalidFileContent
+FAILED tests/codec/ber/test_decoder.py::BinaryFileTestCase::testMoreObjects
+FAILED tests/codec/ber/test_decoder.py::BinaryFileTestCase::testOneObject - P...
+FAILED tests/codec/ber/test_decoder.py::CompressedFilesTestCase::testGzip - P...
+FAILED tests/codec/ber/test_decoder.py::CompressedFilesTestCase::testZipfile
+FAILED tests/codec/ber/test_decoder.py::CompressedFilesTestCase::testZipfileMany
+6 failed, 1313 passed, 175 subtests passed in 8.78s

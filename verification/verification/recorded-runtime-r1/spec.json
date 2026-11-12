@@ -1,0 +1,70 @@
+{
+  "title": "Canonical DER Decoder",
+  "directory": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\recording\\r1",
+  "cwd": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\frozen-artifact",
+  "capture": "wgc",
+  "environment": {
+    "PYTHONPATH": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\frozen-artifact;D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\frozen-artifact\\src;D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\frozen-artifact\\lib",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "HYPOTHESIS_STORAGE_DIRECTORY": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\recording\\r1\\hypothesis"
+  },
+  "commands": [
+    {
+      "id": "decode",
+      "label": "Decode canonical and compatibility inputs",
+      "display": "python ..\\verification\\product-demo-r1\\demo_der.py",
+      "argv": [
+        "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\tasks\\der-canonical\\env\\Scripts\\python.exe",
+        "-B",
+        "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\product-demo-r1\\demo_der.py"
+      ],
+      "start_at_seconds": 0
+    },
+    {
+      "id": "regression",
+      "label": "DER compatibility checks",
+      "display": "python -m pytest -q tests/codec/der",
+      "argv": [
+        "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\tasks\\der-canonical\\env\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "-q",
+        "-p",
+        "no:cacheprovider",
+        "--no-header",
+        "--tb=line",
+        "tests/codec/der",
+        "--basetemp",
+        "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\recording\\r1\\tmp-regression",
+        "--disable-warnings"
+      ],
+      "start_at_seconds": 20
+    },
+    {
+      "id": "tag_order",
+      "label": "Long value with high-numbered SET tags",
+      "display": "python -m pytest -q ..\\verification\\high-tag-header-r2\\test_acceptance.py",
+      "argv": [
+        "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\tasks\\der-canonical\\env\\Scripts\\python.exe",
+        "-B",
+        "-m",
+        "pytest",
+        "-q",
+        "-s",
+        "-p",
+        "no:cacheprovider",
+        "--no-header",
+        "--tb=line",
+        "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\high-tag-header-r2\\test_acceptance.py",
+        "--basetemp",
+        "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\recording\\r1\\tmp-tag-order",
+        "--disable-warnings"
+      ],
+      "start_at_seconds": 45
+    }
+  ],
+  "frozen_sources_verified": true,
+  "separate_verification_console": true,
+  "duration_seconds": 75
+}

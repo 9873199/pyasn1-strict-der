@@ -1,0 +1,273 @@
+{
+  "created": "2026-11-12T16:25:01+08:00",
+  "reviewed": true,
+  "reviewer": "Codex primary agent, AI-assisted",
+  "uid": 1732,
+  "frozen_commit": "fcccf013af6648e6b0fe11d57964205f09f17075",
+  "native_trajectory_sha256": "705dd7a3d0574bfdd13ad82af11d702cae29a87749dc4377b297e42bb94ba10a",
+  "files": [
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\freeze.json",
+      "path": "freeze.json",
+      "sha256": "65fb1fba8751b39c412ad6097408e82edbfc17645043d56c2d65082cd8f69528"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\freeze-audit.json",
+      "path": "freeze-audit.json",
+      "sha256": "433b0ace82f8c83905fbb06d4a754fbcd7b573c67b0d373ad04685a884c9f509"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\environment-reviewed.json",
+      "path": "environment-reviewed.json",
+      "sha256": "19079854593298f9ef3e8c92e0c12f624cd084bab118880d0ec790d3a639da7e"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\evidence-map.json",
+      "path": "evidence-map.json",
+      "sha256": "c5b0a61832b41abc2035b51a4405c1d6305ae5a10791d11c07ae41d2a0e21816"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\model-final-answer.txt",
+      "path": "model-final-answer.txt",
+      "sha256": "da99645773c9e3a47abc2daa28268368b9556a480c1b62bc21d69a0f024d2fd7"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\environment-import.stdout.log",
+      "path": "environment-import.stdout.log",
+      "sha256": "f4b09d8c307d44d4610369151df2e940602019881595b8c557f8e74c0090c550"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\environment-import.stderr.log",
+      "path": "environment-import.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\environment-packages.stdout.log",
+      "path": "environment-packages.stdout.log",
+      "sha256": "bd32ee1573ba1954b4672b9dcebd2ea1acd1c1c0c56ae0ad10a32ea17c113f38"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\environment-packages.stderr.log",
+      "path": "environment-packages.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\acceptance-r1\\acceptance-command.json",
+      "path": "verification/acceptance-r1/acceptance-command.json",
+      "sha256": "5da7ef33b15948c1887e502ef148e90b466de16a781f567ab8b41f363de40ce7"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\acceptance-r1\\acceptance.log",
+      "path": "verification/acceptance-r1/acceptance.log",
+      "sha256": "1c40477cff6153d1986dd4eb3d9b3a18baa9bbaa36278370db279aa6b419038a"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\acceptance-r1\\acceptance.xml",
+      "path": "verification/acceptance-r1/acceptance.xml",
+      "sha256": "3b1d42d4fa545dcf2feb6252949246629ee78a5ba0450072efefa2a5c275c01e"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\acceptance-r1\\regression-command.json",
+      "path": "verification/acceptance-r1/regression-command.json",
+      "sha256": "5d13801e1742a800b58d26a7f83b93ff2606dc5718fc2997f10c2d52504652fd"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\acceptance-r1\\regression.log",
+      "path": "verification/acceptance-r1/regression.log",
+      "sha256": "975652306c4cff8c0123b49b40815713779c99844aea932f067c22372e98e556"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\acceptance-r1\\regression.xml",
+      "path": "verification/acceptance-r1/regression.xml",
+      "sha256": "c52e5570cf1255ad86a1231981c845ca296dbf8e8782b6baa34f14d3a392ab37"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\acceptance-r1\\test-results.json",
+      "path": "verification/acceptance-r1/test-results.json",
+      "sha256": "28e05f8e8654987092dd5714d68157fe7cebdf3a5062399d9cfa1e1157205d88"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\acceptance-r1\\test_acceptance.py",
+      "path": "verification/acceptance-r1/test_acceptance.py",
+      "sha256": "39ea9a2354f5012fbb88619c093be91f20cc4678e423ebf1ab6fd91636773c1e"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\fixture-provenance-r1\\fixture-der-nonseekable-r1-command.json",
+      "path": "verification/fixture-provenance-r1/fixture-der-nonseekable-r1-command.json",
+      "sha256": "e9793c84e30d048e90ec58f8d5547dbe10c236b229e3f5c9ed752ad5c590c291"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\fixture-provenance-r1\\fixture-der-nonseekable-r1-results.xml",
+      "path": "verification/fixture-provenance-r1/fixture-der-nonseekable-r1-results.xml",
+      "sha256": "8fc0fe576b125d0f56d711d3c3102aaf2fd7c475a6999caad3c15ff2c066b092"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\fixture-provenance-r1\\fixture-der-nonseekable-r1-stderr.log",
+      "path": "verification/fixture-provenance-r1/fixture-der-nonseekable-r1-stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\fixture-provenance-r1\\fixture-der-nonseekable-r1-stdout.log",
+      "path": "verification/fixture-provenance-r1/fixture-der-nonseekable-r1-stdout.log",
+      "sha256": "d9c79eb5c58445190b7f8271872df40accae12f7d7d990ad966be8c401fe262d"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\fixture-provenance-r1\\fixture-der-nonseekable-r1-test_positive_fixture.py",
+      "path": "verification/fixture-provenance-r1/fixture-der-nonseekable-r1-test_positive_fixture.py",
+      "sha256": "39ea9a2354f5012fbb88619c093be91f20cc4678e423ebf1ab6fd91636773c1e"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\fixture-provenance-r1\\fixture-positive-der-yaml-r3-check_der_fixture.py",
+      "path": "verification/fixture-provenance-r1/fixture-positive-der-yaml-r3-check_der_fixture.py",
+      "sha256": "623c7498d746a380c5c4661743decead331e2c3deb960ab5206771a183a986fa"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\fixture-provenance-r1\\fixture-positive-der-yaml-r3-der-command.json",
+      "path": "verification/fixture-provenance-r1/fixture-positive-der-yaml-r3-der-command.json",
+      "sha256": "fdd709c670828b323b03845db3f11b107d01d37486118dc2badcc4988933f669"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\fixture-provenance-r1\\fixture-positive-der-yaml-r3-der.stderr.log",
+      "path": "verification/fixture-provenance-r1/fixture-positive-der-yaml-r3-der.stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\fixture-provenance-r1\\fixture-positive-der-yaml-r3-der.stdout.log",
+      "path": "verification/fixture-provenance-r1/fixture-positive-der-yaml-r3-der.stdout.log",
+      "sha256": "cba9ee83f5f30efaec34fa13c694da8b4fe2698a5fb5568000d97576450f2db0"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\fixture-provenance-r1\\fixture-streaming-der-r1-command.json",
+      "path": "verification/fixture-provenance-r1/fixture-streaming-der-r1-command.json",
+      "sha256": "a45c2a9e0dc017ee40a755584ce4041abb838f7faefe5dfe7d47f5ac0e03cdba"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\fixture-provenance-r1\\fixture-streaming-der-r1-results.xml",
+      "path": "verification/fixture-provenance-r1/fixture-streaming-der-r1-results.xml",
+      "sha256": "412857708ba3a06b4f940117c6063b88c8bc795bbcdf2f56bbf0ddabf0fa3f9a"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\fixture-provenance-r1\\fixture-streaming-der-r1-stderr.log",
+      "path": "verification/fixture-provenance-r1/fixture-streaming-der-r1-stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\fixture-provenance-r1\\fixture-streaming-der-r1-stdout.log",
+      "path": "verification/fixture-provenance-r1/fixture-streaming-der-r1-stdout.log",
+      "sha256": "314cef4b5b7b321d1b7b6a389d18ed7979d5c627786f22938c73a2ad88f57c46"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\full-regression-r2\\regression-command.json",
+      "path": "verification/full-regression-r2/regression-command.json",
+      "sha256": "f1793b548568462837aaea7a6a3f6fb44e8541cd7d3aefd21f6fdc4cd61dd25d"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\full-regression-r2\\regression.log",
+      "path": "verification/full-regression-r2/regression.log",
+      "sha256": "95109924110539e510f2e63a3b62159b699ad0324505da3155a06b5b438168fc"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\full-regression-r2\\regression.xml",
+      "path": "verification/full-regression-r2/regression.xml",
+      "sha256": "e91a73a4485491403cdfc2d17dc6cddca7da4b5c752d3de0919fabeca86a1178"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\full-regression-r2\\test-results.json",
+      "path": "verification/full-regression-r2/test-results.json",
+      "sha256": "552ade430365340c158fab803219d42a09002569f4421e67ba8e3e0e6bc87d5f"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\high-tag-header-r2\\acceptance-command.json",
+      "path": "verification/high-tag-header-r2/acceptance-command.json",
+      "sha256": "259ef43d009d479e03da150840c023a89835913d3d0e879867c859c7c5a0e4e2"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\high-tag-header-r2\\acceptance.log",
+      "path": "verification/high-tag-header-r2/acceptance.log",
+      "sha256": "c25f9ffacc30b5d77c5198bf94af2fadc403b68ef45dce31d4b4497b1666a3d1"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\high-tag-header-r2\\acceptance.xml",
+      "path": "verification/high-tag-header-r2/acceptance.xml",
+      "sha256": "b07a7363beaea5f4d15560eccd7ce55a0105a386570f8eb6979390ceda709f2f"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\high-tag-header-r2\\test-results.json",
+      "path": "verification/high-tag-header-r2/test-results.json",
+      "sha256": "e22879e7efbe431bf087a25a66ade0fb43cb6533b841bda8240d293d6263a21e"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\high-tag-header-r2\\test_acceptance.py",
+      "path": "verification/high-tag-header-r2/test_acceptance.py",
+      "sha256": "dfc4b6a856289b67537196286ed4d2572fcf00a94a141161027a1cba2e6f1be3"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\initial-io-baseline-r1\\command.json",
+      "path": "verification/initial-io-baseline-r1/command.json",
+      "sha256": "f723d3024da907660020b7bc7bb37f4b67afb8a721566d62aceb610163160c29"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\initial-io-baseline-r1\\stderr.log",
+      "path": "verification/initial-io-baseline-r1/stderr.log",
+      "sha256": "18eded24f10d2dfe9c20bada03f932cfad0109a5e01040c3891aa0de3610410e"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\initial-io-baseline-r1\\stdout.log",
+      "path": "verification/initial-io-baseline-r1/stdout.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\product-demo-r1\\command.json",
+      "path": "verification/product-demo-r1/command.json",
+      "sha256": "366dd0487907bfd8189ac922b13f35a4ab613a819bc63598f79d33d375737295"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\product-demo-r1\\demo_der.py",
+      "path": "verification/product-demo-r1/demo_der.py",
+      "sha256": "1aa40dfc4a8da604dfc5d4e24e5b52b5ad3244f78e3909c9e465875277f135fb"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\product-demo-r1\\stderr.log",
+      "path": "verification/product-demo-r1/stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\product-demo-r1\\stdout.log",
+      "path": "verification/product-demo-r1/stdout.log",
+      "sha256": "98c45a4bf52d27458a1b59960c4259dec836ee80a5688462de173f735453b9bb"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\recorded-runtime-r1\\actual-commands.json",
+      "path": "verification/recorded-runtime-r1/actual-commands.json",
+      "sha256": "22c5ca1c4c8e5a9cb68d6f281bbbc76c9ae25f6abfde43d1b1df6dce575e70aa"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\recorded-runtime-r1\\decode-output.log",
+      "path": "verification/recorded-runtime-r1/decode-output.log",
+      "sha256": "98c45a4bf52d27458a1b59960c4259dec836ee80a5688462de173f735453b9bb"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\recorded-runtime-r1\\regression-output.log",
+      "path": "verification/recorded-runtime-r1/regression-output.log",
+      "sha256": "2a4db6d2155b78ebf2caa83f987757991f8553fa7d7b5f98d0371f7b54144dcd"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\recorded-runtime-r1\\spec.json",
+      "path": "verification/recorded-runtime-r1/spec.json",
+      "sha256": "bb628831932d326a8271ea9f05c2c5e8acef7ece29e1d4ae223862e71fd65a7b"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\recorded-runtime-r1\\tag_order-output.log",
+      "path": "verification/recorded-runtime-r1/tag_order-output.log",
+      "sha256": "defbca9faa5cdeb40efe9e4903a0720f29a394549053135945a5c6af523ae5d4"
+    },
+    {
+      "source": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\reproduction-notes.md",
+      "path": "verification/reproduction-notes.md",
+      "sha256": "ee50ae8657f1596a89c4485f6e508770b2d387d6d49b24c4374792c9556f652e"
+    }
+  ],
+  "reproduction_readme": "本目录保存冻结产物的独立验收原件。实际环境Windows、Python 3.14.3，未容器化，无运行期外部服务或网络。完整依赖、实际模块路径见environment-reviewed.json，复现步骤和测试范围见verification/reproduction-notes.md。检出frozen_commit，用同版Python建立环境并安装已记录测试依赖，PYTHONPATH指向检出目录。各子目录保留原始argv、输出、JUnit、退出码与用例；原机绝对路径需替换为本次检出位置，断言不改。原轨模型测试和独立验收分开；6项Windows回归错误已在固定初始提交复现，不计为模型新增缺陷。演示helper与控制台为独立验证工具。原始JSONL和75秒视频各一个保存在飞书字段，本公开目录不另放轨迹。",
+  "no_model_source_edits": true,
+  "native_trace_included": false
+}

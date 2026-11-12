@@ -1,0 +1,59 @@
+EEEEEE
+======================================================================
+ERROR: testInvalidFileContent (tests.codec.ber.test_decoder.BinaryFileTestCase.testInvalidFileContent)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\hc\userFeedback\cache\execution-security-next10-20261112\baseline-der-io-r1\initial-source\tests\codec\ber\test_decoder.py", line 2154, in testInvalidFileContent
+    os.remove(path)
+    ~~~~~~~~~^^^^^^
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\hc\\userFeedback\\cache\\tmp\\tmpmrmn6c9y'
+
+======================================================================
+ERROR: testMoreObjects (tests.codec.ber.test_decoder.BinaryFileTestCase.testMoreObjects)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\hc\userFeedback\cache\execution-security-next10-20261112\baseline-der-io-r1\initial-source\tests\codec\ber\test_decoder.py", line 2139, in testMoreObjects
+    os.remove(path)
+    ~~~~~~~~~^^^^^^
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\hc\\userFeedback\\cache\\tmp\\tmp3xx3t61t'
+
+======================================================================
+ERROR: testOneObject (tests.codec.ber.test_decoder.BinaryFileTestCase.testOneObject)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\hc\userFeedback\cache\execution-security-next10-20261112\baseline-der-io-r1\initial-source\tests\codec\ber\test_decoder.py", line 2125, in testOneObject
+    os.remove(path)
+    ~~~~~~~~~^^^^^^
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\hc\\userFeedback\\cache\\tmp\\tmpa1d1bwcc'
+
+======================================================================
+ERROR: testGzip (tests.codec.ber.test_decoder.CompressedFilesTestCase.testGzip)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\hc\userFeedback\cache\execution-security-next10-20261112\baseline-der-io-r1\initial-source\tests\codec\ber\test_decoder.py", line 2306, in testGzip
+    os.remove(path)
+    ~~~~~~~~~^^^^^^
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\hc\\userFeedback\\cache\\tmp\\tmpdkmjml9f.gz'
+
+======================================================================
+ERROR: testZipfile (tests.codec.ber.test_decoder.CompressedFilesTestCase.testZipfile)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\hc\userFeedback\cache\execution-security-next10-20261112\baseline-der-io-r1\initial-source\tests\codec\ber\test_decoder.py", line 2320, in testZipfile
+    os.remove(path)
+    ~~~~~~~~~^^^^^^
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\hc\\userFeedback\\cache\\tmp\\tmpfe6i8dkc.zip'
+
+======================================================================
+ERROR: testZipfileMany (tests.codec.ber.test_decoder.CompressedFilesTestCase.testZipfileMany)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "D:\hc\userFeedback\cache\execution-security-next10-20261112\baseline-der-io-r1\initial-source\tests\codec\ber\test_decoder.py", line 2334, in testZipfileMany
+    os.remove(path)
+    ~~~~~~~~~^^^^^^
+PermissionError: [WinError 32] 另一个程序正在使用此文件，进程无法访问。: 'D:\\hc\\userFeedback\\cache\\tmp\\tmp0ehvujqa.zip'
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.184s
+
+FAILED (errors=6)

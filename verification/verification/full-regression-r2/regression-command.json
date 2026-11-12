@@ -1,0 +1,22 @@
+{
+  "argv": [
+    "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\tasks\\der-canonical\\env\\Scripts\\python.exe",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\frozen-artifact\\tests",
+    "--basetemp",
+    "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\full-regression-r2\\tmp-regression",
+    "--junitxml",
+    "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\full-regression-r2\\regression.xml",
+    "--disable-warnings"
+  ],
+  "cwd": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\frozen-artifact",
+  "PYTHONPATH": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\frozen-artifact;D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\frozen-artifact\\src;D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\frozen-artifact\\lib",
+  "python": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\tasks\\der-canonical\\env\\Scripts\\python.exe",
+  "exit_code": 1,
+  "seconds": 11.22,
+  "log": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\full-regression-r2\\regression.log"
+}

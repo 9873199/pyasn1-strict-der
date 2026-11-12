@@ -1,0 +1,82 @@
+.FF
+================================== FAILURES ===================================
+____________ test_high_tag_sorted_set_with_long_length_is_accepted ____________
+
+    def test_high_tag_sorted_set_with_long_length_is_accepted():
+>    schema,good,bad=fixture();value,tail=decoder.decode(good,asn1Spec=schema,strictCanonical=True)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+..\verification\high-tag-header-r2\test_acceptance.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+pyasn1\codec\ber\decoder.py:2377: in __call__
+    for asn1Object in streamingDecoder:
+                      ^^^^^^^^^^^^^^^^
+pyasn1\codec\ber\decoder.py:2247: in __iter__
+    for asn1Object in self._singleItemDecoder(
+pyasn1\codec\ber\decoder.py:2103: in __call__
+    for value in concreteDecoder.valueDecoder(
+pyasn1\codec\ber\decoder.py:1101: in valueDecoder
+    self._verifyCanonicalOrder(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <pyasn1.codec.ber.decoder.SetPayloadDecoder object at 0x0000025EBA2A2F90>
+asn1Object = <Set value object, tagSet=<TagSet object, tags 0:32:17>, subtypeSpec=<ConstraintsIntersection object>, componentType=<...ad [xxxxxxxxxxxxxxxx...xxxxxxxxxxxxxxxx]>, <Integer value object, tagSet <TagSet object, tags 128:0:32>, payload [1]>]>
+payloadStart = 3, payloadEnd = 139
+substrate = <_io.BytesIO object at 0x0000025EBA3263E0>
+
+    def _verifyCanonicalOrder(self, asn1Object, payloadStart,
+                              payloadEnd, substrate):
+        """Check DER SET/SET OF component ordering (X.690 11.6).
+    
+        Only the container's own payload bytes are re-scanned for tag
+        and length boundaries -- nested values have already been
+        validated when they were decoded. SET OF compares the complete
+        DER encoding of each element; SET compares the elements by
+        their DER tags. SEQUENCE and SEQUENCE OF have no DER ordering
+        rule and are left untouched.
+        """
+        if asn1Object.typeId not in (univ.Set.typeId, univ.SetOf.typeId):
+            return
+    
+        currentPosition = substrate.tell()
+        try:
+            substrate.seek(payloadStart, os.SEEK_SET)
+            payload = substrate.read(payloadEnd - payloadStart)
+        finally:
+            substrate.seek(currentPosition, os.SEEK_SET)
+    
+        isSetOf = asn1Object.typeId == univ.SetOf.typeId
+    
+        previousEncoding = None
+        previousTag = None
+    
+        for tagStart, valueStart, tlvEnd in _iterDefiniteTlvSpans(payload):
+            if isSetOf:
+                currentEncoding = payload[tagStart:tlvEnd]
+                if (previousEncoding is not None and
+                        currentEncoding < previousEncoding):
+                    raise error.PyAsn1Error(
+                        'SET OF components are not in ascending DER '
+                        'encoding order')
+                previousEncoding = currentEncoding
+            else:
+                currentTag = self._derTagKey(payload[tagStart:valueStart])
+                if previousTag is not None and currentTag < previousTag:
+>                   raise error.PyAsn1Error(
+                        'SET components are not in ascending DER tag order')
+E                   pyasn1.error.PyAsn1Error: SET components are not in ascending DER tag order
+
+pyasn1\codec\ber\decoder.py:812: PyAsn1Error
+___________ test_high_tag_reversed_set_with_long_length_is_rejected ___________
+
+    def test_high_tag_reversed_set_with_long_length_is_rejected():
+     schema,good,bad=fixture()
+>    with pytest.raises(PyAsn1Error):decoder.decode(bad,asn1Spec=schema,strictCanonical=True)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    Failed: DID NOT RAISE PyAsn1Error
+
+..\verification\high-tag-header-r2\test_acceptance.py:25: Failed
+=========================== short test summary info ===========================
+FAILED ..\verification\high-tag-header-r2\test_acceptance.py::test_high_tag_sorted_set_with_long_length_is_accepted
+FAILED ..\verification\high-tag-header-r2\test_acceptance.py::test_high_tag_reversed_set_with_long_length_is_rejected
+2 failed, 1 passed in 0.91s

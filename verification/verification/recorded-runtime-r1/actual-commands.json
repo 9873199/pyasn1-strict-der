@@ -1,0 +1,53 @@
+[
+  {
+    "id": "decode",
+    "argv": [
+      "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\tasks\\der-canonical\\env\\Scripts\\python.exe",
+      "-B",
+      "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\product-demo-r1\\demo_der.py"
+    ],
+    "exit_code": 0,
+    "finished_at_seconds": 0.68
+  },
+  {
+    "id": "regression",
+    "argv": [
+      "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\tasks\\der-canonical\\env\\Scripts\\python.exe",
+      "-B",
+      "-m",
+      "pytest",
+      "-q",
+      "-p",
+      "no:cacheprovider",
+      "--no-header",
+      "--tb=line",
+      "tests/codec/der",
+      "--basetemp",
+      "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\recording\\r1\\tmp-regression",
+      "--disable-warnings"
+    ],
+    "exit_code": 0,
+    "finished_at_seconds": 23.6
+  },
+  {
+    "id": "tag_order",
+    "argv": [
+      "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\tasks\\der-canonical\\env\\Scripts\\python.exe",
+      "-B",
+      "-m",
+      "pytest",
+      "-q",
+      "-s",
+      "-p",
+      "no:cacheprovider",
+      "--no-header",
+      "--tb=line",
+      "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\verification\\high-tag-header-r2\\test_acceptance.py",
+      "--basetemp",
+      "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\recording\\r1\\tmp-tag-order",
+      "--disable-warnings"
+    ],
+    "exit_code": 1,
+    "finished_at_seconds": 47.65
+  }
+]

@@ -1,0 +1,43 @@
+实现完成。下面是本次工作的总结。
+
+## 交付内容
+
+新增可选参数 `strictCanonical=True`，接入 `pyasn1.codec.der.decoder.decode` 和 `der.decoder.StreamingDecoder`。默认 `False`，不传或传 `False` 时 DER/BER/CER 全部走旧的兼容逻辑；BER、CER 即使传了该参数也完全忽略。
+
+### 实现的检查边界（X.690 DER 规则）
+
+| 规则 | 严格模式行为 |
+|---|---|
+| 高标签号 tag | 拒绝短形式可表达的值（如 tag 30 写成 `9f 1e`）和多余前导 `0x80` 续接八位组 |
+| length | 拒绝长形式编码 <128 的值、长形式前导零；不定长仍由既有 `supportIndefLength=False` 拦截 |
+| INTEGER / ENUMERATED | 拒绝空内容（`02 00`）和多余符号扩展（`02 02 00 01`、`ff 80` 类）；`02 01 01` 正常 |
+| BOOLEAN | 严格限定长度 1 且仅 `00`/`FF`，同时补上 schema 驱动 `TYPE_MAP` 路径的缺口 |
+| BIT STRING | 空串必须是单个 `00`；unused bits 数越界/空串非零、末字节未使用位非零均拒绝 |
+| 字符串 | 构造型 OCTET/BIT/字符串严格模式下两条分发路径都拒绝（保住既有的 DER 拦截） |
+| SET OF | 按每个**完整子元素 DER 字节**升序 |
+| SET | 按 DER 标签排序规则（先 class 后数值 tagId），SEQUENCE/SEQUENCE OF 不校验顺序 |
+
+### 关键设计
+
+- **不重编码整份输入**：容器排序只回读本容器载荷、用 `_iterDefiniteTlvSpans` 重扫 tag/length 边界做比较；嵌套对象在各自被解码时已验证。一次 decode 只校验本次消费的对象，tail 照常返回。
+- **开关门在类级别**：共享 BER 代码里的检查读 `options['strictCanonical']`，`SingleItemDecoder.strictCanonicalSupported` 在 BER/CER 为 `False`、DER 子类翻为 `True`，从根上保证选项不外泄到其他编解码器。
+- **隐式标签**只换 tag 不换 payload 解码器，底层值仍被检查；SEQUENCE、CHOICE、显式包装、open type（`decodeOpenTypes=True` 时）都靠原样透传 options 覆盖到；不透明 ANY 不递归校验。
+- **流式语义不变**：tag/length 头信息够了立即报错，值级违规等内容八位组到齐才报 `PyAsn1Error`，数据不足时仍是 `SubstrateUnderrunError` 并可恢复。
+
+过程中修正了两个易踩的坑：SET 高标签号跨长度边界（16383=`ff7f` vs 16384=`818000`）必须按**数值** tagId 而非 base-128 字节序，已与 DER 编码器的 `Tag.__lt__` 对齐；SEQUENCE 加了类型守卫，不会被误套 SET 排序规则。
+
+## 测试
+
+新增 `tests/codec/der/test_strict_decoder.py`（39 个用例，已注册进 `tests/codec/der/__main__.py`），覆盖最短合法值与单字节反例、嵌套、隐式/显式标签、CHOICE、open type、tail、非阻塞流跨读取边界、SET 与 SET OF 的区别及高标签号边界，并含默认/BER/CER 兼容对照。
+
+- `python -Werror -m unittest discover -s tests`：**1319 个测试**（基线 1280 + 新增 39），除 6 个 BER 临时 gz/zip 文件的 Windows `PermissionError` 外全过——这 6 个在干净基线上同样失败，与本次改动无关（已用 `git stash` 验证）。
+- `coverage`/`sphinx`/`bandit` 本环境未安装，这三个门无法本地运行。
+
+## 改动文件
+
+- `pyasn1/codec/ber/decoder.py`：共享检查逻辑与 `strictCanonicalSupported` 门
+- `pyasn1/codec/der/decoder.py`：DER 开关、`TYPE_MAP` 用严格 BOOLEAN、文档
+- `tests/codec/der/test_strict_decoder.py`（新）、`tests/codec/der/__main__.py`（注册）
+- `CHANGES.rst`、`docs/ARCHITECTURE.md`：同步行为说明
+
+另发现一个**既有**现象（未改）：pyasn1 编码器对负 2 的幂边界（如 -128）会产出非最小编码 `ff 80`，严格解码会正确拒绝它；最小的 `80` 能正常通过。改动均未提交。

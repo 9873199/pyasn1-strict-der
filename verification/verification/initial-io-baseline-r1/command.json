@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\tasks\\der-canonical\\env\\Scripts\\python.exe",
+    "-B",
+    "-Werror",
+    "-m",
+    "unittest",
+    "tests.codec.ber.test_decoder.BinaryFileTestCase",
+    "tests.codec.ber.test_decoder.CompressedFilesTestCase"
+  ],
+  "cwd": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\baseline-der-io-r1\\initial-source",
+  "PYTHONPATH": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\baseline-der-io-r1\\initial-source",
+  "exit_code": 1,
+  "initial_sha": "e24fa719428229db5efeb8aee74ce6d03329df5d",
+  "scope": "Original upstream binary/compressed file tests only; feature NOT scored",
+  "os": "win32",
+  "windows_file_lock_errors": 6
+}

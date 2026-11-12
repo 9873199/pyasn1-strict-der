@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="3" time="0.765" timestamp="2026-11-12T16:11:45.484458+08:00" hostname="DESKTOP-BPAMAV8"><testcase classname="verification.high-tag-header-r2.test_acceptance" name="test_positive_fixture_matches_original_der_encoder" time="0.001" /><testcase classname="verification.high-tag-header-r2.test_acceptance" name="test_high_tag_sorted_set_with_long_length_is_accepted" time="0.001"><failure message="pyasn1.error.PyAsn1Error: SET components are not in ascending DER tag order">def test_high_tag_sorted_set_with_long_length_is_accepted():
+&gt;    schema,good,bad=fixture();value,tail=decoder.decode(good,asn1Spec=schema,strictCanonical=True)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+..\verification\high-tag-header-r2\test_acceptance.py:20: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+pyasn1\codec\ber\decoder.py:2377: in __call__
+    for asn1Object in streamingDecoder:
+                      ^^^^^^^^^^^^^^^^
+pyasn1\codec\ber\decoder.py:2247: in __iter__
+    for asn1Object in self._singleItemDecoder(
+pyasn1\codec\ber\decoder.py:2103: in __call__
+    for value in concreteDecoder.valueDecoder(
+pyasn1\codec\ber\decoder.py:1101: in valueDecoder
+    self._verifyCanonicalOrder(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = &lt;pyasn1.codec.ber.decoder.SetPayloadDecoder object at 0x0000025EBA2A2F90&gt;
+asn1Object = &lt;Set value object, tagSet=&lt;TagSet object, tags 0:32:17&gt;, subtypeSpec=&lt;ConstraintsIntersection object&gt;, componentType=&lt;...ad [xxxxxxxxxxxxxxxx...xxxxxxxxxxxxxxxx]&gt;, &lt;Integer value object, tagSet &lt;TagSet object, tags 128:0:32&gt;, payload [1]&gt;]&gt;
+payloadStart = 3, payloadEnd = 139
+substrate = &lt;_io.BytesIO object at 0x0000025EBA3263E0&gt;
+
+    def _verifyCanonicalOrder(self, asn1Object, payloadStart,
+                              payloadEnd, substrate):
+        """Check DER SET/SET OF component ordering (X.690 11.6).
+    
+        Only the container's own payload bytes are re-scanned for tag
+        and length boundaries -- nested values have already been
+        validated when they were decoded. SET OF compares the complete
+        DER encoding of each element; SET compares the elements by
+        their DER tags. SEQUENCE and SEQUENCE OF have no DER ordering
+        rule and are left untouched.
+        """
+        if asn1Object.typeId not in (univ.Set.typeId, univ.SetOf.typeId):
+            return
+    
+        currentPosition = substrate.tell()
+        try:
+            substrate.seek(payloadStart, os.SEEK_SET)
+            payload = substrate.read(payloadEnd - payloadStart)
+        finally:
+            substrate.seek(currentPosition, os.SEEK_SET)
+    
+        isSetOf = asn1Object.typeId == univ.SetOf.typeId
+    
+        previousEncoding = None
+        previousTag = None
+    
+        for tagStart, valueStart, tlvEnd in _iterDefiniteTlvSpans(payload):
+            if isSetOf:
+                currentEncoding = payload[tagStart:tlvEnd]
+                if (previousEncoding is not None and
+                        currentEncoding &lt; previousEncoding):
+                    raise error.PyAsn1Error(
+                        'SET OF components are not in ascending DER '
+                        'encoding order')
+                previousEncoding = currentEncoding
+            else:
+                currentTag = self._derTagKey(payload[tagStart:valueStart])
+                if previousTag is not None and currentTag &lt; previousTag:
+&gt;                   raise error.PyAsn1Error(
+                        'SET components are not in ascending DER tag order')
+E                   pyasn1.error.PyAsn1Error: SET components are not in ascending DER tag order
+
+pyasn1\codec\ber\decoder.py:812: PyAsn1Error</failure></testcase><testcase classname="verification.high-tag-header-r2.test_acceptance" name="test_high_tag_reversed_set_with_long_length_is_rejected" time="0.002"><failure message="Failed: DID NOT RAISE PyAsn1Error">def test_high_tag_reversed_set_with_long_length_is_rejected():
+     schema,good,bad=fixture()
+&gt;    with pytest.raises(PyAsn1Error):decoder.decode(bad,asn1Spec=schema,strictCanonical=True)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    Failed: DID NOT RAISE PyAsn1Error
+
+..\verification\high-tag-header-r2\test_acceptance.py:25: Failed</failure></testcase></testsuite></testsuites>

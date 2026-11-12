@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\tasks\\der-canonical\\env\\Scripts\\python.exe",
+    "-B",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\acceptance-der-r2.py",
+    "-k",
+    "streaming_missing_data_semantics_preserved or streaming_multiple_values or default_legacy_integer_acceptance",
+    "--basetemp",
+    "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\fixture-streaming-der-r1\\tmp",
+    "--junitxml",
+    "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\fixture-streaming-der-r1\\results.xml"
+  ],
+  "cwd": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\fixture-streaming-der-r1",
+  "PYTHONPATH": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\fixture-streaming-der-r1\\initial-source",
+  "exit_code": 0,
+  "initial_sha": "e24fa719428229db5efeb8aee74ce6d03329df5d",
+  "scope": "positive old streaming and legacy decode only; new canonical validation NOT graded"
+}

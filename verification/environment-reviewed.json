@@ -1,0 +1,67 @@
+{
+  "time": "2026-11-12T16:10:11+08:00",
+  "uid": 1732,
+  "os": "Windows",
+  "container_used": false,
+  "external_dependencies": [
+    {
+      "name": "colorama",
+      "version": "0.4.6"
+    },
+    {
+      "name": "iniconfig",
+      "version": "2.3.1"
+    },
+    {
+      "name": "packaging",
+      "version": "26.3"
+    },
+    {
+      "name": "pip",
+      "version": "25.3"
+    },
+    {
+      "name": "pluggy",
+      "version": "1.7.0"
+    },
+    {
+      "name": "Pygments",
+      "version": "2.21.0"
+    },
+    {
+      "name": "pytest",
+      "version": "9.2.0"
+    }
+  ],
+  "actual_import": {
+    "python_version": "3.14.3 (tags/v3.14.3:323c59a, Feb  3 2026, 16:04:56) [MSC v.1944 64 bit (AMD64)]",
+    "python_executable": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\tasks\\der-canonical\\env\\Scripts\\python.exe",
+    "imported_module": "pyasn1",
+    "module_file": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\frozen-artifact\\pyasn1\\__init__.py"
+  },
+  "import_command": [
+    "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\tasks\\der-canonical\\env\\Scripts\\python.exe",
+    "-B",
+    "-c",
+    "import sys,json,importlib; m=importlib.import_module('pyasn1'); print(json.dumps({\"python_version\":sys.version,\"python_executable\":sys.executable,\"imported_module\":m.__name__,\"module_file\":str(m.__file__)}))"
+  ],
+  "PYTHONPATH": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\frozen-artifact;D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\frozen-artifact\\src;D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\frozen-artifact\\lib",
+  "artifact_directory": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\evaluation\\uf-20261112-sec-der-canonical\\frozen-artifact",
+  "module_import_verified": true,
+  "runtime_services": false,
+  "runtime_network_required": false,
+  "baseline": {
+    "time": "2026-11-12T11:32:05+08:00",
+    "status": "ENV_READY",
+    "clean_source": true,
+    "smoke_exit": 0,
+    "regression_exit": 0,
+    "source_path": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\sources\\der-canonical",
+    "external_dependencies": [
+      "pytest"
+    ],
+    "runtime_services": false,
+    "container": false
+  },
+  "frozen_product_edited": false
+}

@@ -1,0 +1,12 @@
+{
+  "argv": [
+    "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\tasks\\der-canonical\\env\\Scripts\\python.exe",
+    "-B",
+    "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\fixture-positive-der-yaml-r3\\check_der_fixture.py"
+  ],
+  "cwd": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\fixture-positive-der-yaml-r3",
+  "PYTHONPATH": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\sources\\der-canonical",
+  "initial_sha": "e24fa719428229db5efeb8aee74ce6d03329df5d",
+  "exit_code": 0,
+  "feature_evaluation": false
+}

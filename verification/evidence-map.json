@@ -1,0 +1,199 @@
+{
+  "time": "2026-11-12T16:24:59+08:00",
+  "uid": 1732,
+  "frozen_commit": "fcccf013af6648e6b0fe11d57964205f09f17075",
+  "native_trajectory_sha256": "705dd7a3d0574bfdd13ad82af11d702cae29a87749dc4377b297e42bb94ba10a",
+  "private_reasoning_used": false,
+  "reviewer": "Codex primary agent, AI-assisted",
+  "score": 3,
+  "score_rationale": "核心严格入口、兼容和嵌套流式功能可运行，但显式要求的SET高标签排序误拒规范输入并漏拒倒序，需人工修正；3分。误拒/漏拒同源不重复扣分，6项初始Windows问题不归因本轮，不按通过比例计分。",
+  "requirements": [
+    {
+      "requirement": "decode和StreamingDecoder可选strictCanonical，默认及BER/CER兼容",
+      "status": "PASS_FOR_TESTED_CASES",
+      "source": "pyasn1/codec/der/decoder.py:96; pyasn1/codec/ber/decoder.py:1763",
+      "tests": [
+        "test_default_legacy_integer_acceptance",
+        "test_explicit_false_preserves_default_compatibility",
+        "test_streaming_multiple_values"
+      ]
+    },
+    {
+      "requirement": "tag和length最短编码，INTEGER/ENUMERATED符号扩展与空值，BOOLEAN和BIT STRING合法性",
+      "status": "PASS_FOR_TESTED_CASES",
+      "source": "pyasn1/codec/ber/decoder.py:203,321,1859,1943; pyasn1/codec/der/decoder.py:28",
+      "tests": [
+        "test_minimal_legal_values",
+        "test_noncanonical_primitive_forms",
+        "test_long_length_needed_for_128_bytes",
+        "test_implicit_primitive_value_constraints"
+      ]
+    },
+    {
+      "requirement": "SET OF完整DER字节排序，SET按标签class和数值排序",
+      "status": "PARTIAL_FAIL_SET_HIGH_TAG_LENGTH",
+      "source": "pyasn1/codec/ber/decoder.py:753,768,810",
+      "tests": [
+        "test_set_of_order_uses_full_encoding_not_numeric_value",
+        "test_set_order_ignores_constructed_bit_within_same_tag_class",
+        "test_high_tag_sorted_set_with_long_length_is_accepted",
+        "test_high_tag_reversed_set_with_long_length_is_rejected"
+      ],
+      "failure": "context tag31 OCTET STRING载荷128字节，再接tag32 INTEGER=1，官方encoder编码的合法顺序strict拒绝；交换两字段strict反而接受。调用切片含tag和length，_derTagKey未在高标签末字节停止，将长度参与tagId累积。",
+      "exact_fixture": {
+        "first_header": "9f1f8180",
+        "first_value": "78 repeated 128 times",
+        "second": "9f200101",
+        "outer": "318188",
+        "computed_wrong_keys": [
+          [
+            128,
+            508032
+          ],
+          [
+            128,
+            4097
+          ]
+        ]
+      },
+      "same_root_cause": "误拒与漏拒是同一排序键缺陷，不重复计分。"
+    },
+    {
+      "requirement": "SEQUENCE、CHOICE、显式/隐式和open type传播严格检查",
+      "status": "PASS_FOR_TESTED_CASES",
+      "tests": [
+        "test_sequence_propagates_flag",
+        "test_implicit_integer_propagates_flag",
+        "test_explicit_integer_propagates_flag",
+        "test_choice_propagates_flag",
+        "test_open_type_strict_value",
+        "test_implicit_set_of_propagates_order_check"
+      ]
+    },
+    {
+      "requirement": "保留不定长与构造型字符串禁令，只验证消费对象并返回tail",
+      "status": "PASS_FOR_TESTED_CASES",
+      "tests": [
+        "test_existing_der_prohibitions_and_additional_nonminimal_forms",
+        "test_tail_is_not_validated"
+      ]
+    },
+    {
+      "requirement": "分段流缺数据语义及不可seek输入，不整份预读重编码比较",
+      "status": "PASS_FOR_TESTED_CASES_WITH_LIMIT",
+      "source": "pyasn1/codec/ber/decoder.py:774",
+      "tests": [
+        "test_streaming_missing_data_semantics_preserved",
+        "test_streaming_noncanonical_nested_rejected",
+        "test_large_set_of_nonseekable_keeps_original_bytes_available",
+        "test_large_set_of_nonseekable_rejects_actual_child_misorder",
+        "test_nonseekable_multiple_objects_and_nested_order"
+      ],
+      "note": "独立12KB正反例及多对象通过；实现对单个已消费SET容器回读排序。原轨167KB限制未在本轮独立复现，不当新增缺陷。"
+    },
+    {
+      "requirement": "补合法/单字节反例、嵌套/标签/流边界/SET区别，跑现有DER回归并说明用法",
+      "status": "PASS_WITH_COVERAGE_GAP",
+      "source": "tests/codec/der/test_strict_decoder.py; tests/codec/der/__main__.py; docs/ARCHITECTURE.md; CHANGES.rst; pyasn1/codec/der/decoder.py:144",
+      "note": "自带39项含高标签跨标签长度边界，但无tag长度与载荷long-form长度组合，遗漏本次排序键问题。DER包119通过。"
+    }
+  ],
+  "observable_process": [
+    {
+      "native_lines": [
+        158,
+        159
+      ],
+      "observation": "先跑DER80项起点基线。"
+    },
+    {
+      "native_lines": [
+        163,
+        248,
+        301,
+        305
+      ],
+      "observation": "实现共享BER检查及DER门控，随后验证BER/CER隔离。"
+    },
+    {
+      "native_lines": [
+        412,
+        420,
+        423,
+        429
+      ],
+      "observation": "新增严格测试并注册，修正构造字符串兼容路径的夹具期望。"
+    },
+    {
+      "native_lines": [
+        500,
+        512
+      ],
+      "observation": "发现高标签字节序与数值序不等，改用_derTagKey累积数值并加标签跨长度测试，但循环未在高标签结束处停止。"
+    },
+    {
+      "native_lines": [
+        548,
+        561
+      ],
+      "observation": "加SEQUENCE类型守卫，最终自带39项通过。"
+    },
+    {
+      "native_lines": [
+        665,
+        676
+      ],
+      "observation": "原轨167KB不可seek失败后做基线/非strict对照并披露旧限制；本评价未独立确认此规模，不据此扣分。"
+    },
+    {
+      "native_lines": [
+        682,
+        695,
+        728
+      ],
+      "observation": "最后完整聚合、编译和严格测试，答复称完成并披露6个Windows文件占用错误以及coverage/sphinx/bandit缺失。"
+    },
+    {
+      "native_lines": [
+        699,
+        718,
+        725
+      ],
+      "observation": "误放仓库memory后删除迁回cache原生runtime，最终产物无该残留，不单独扣分。"
+    }
+  ],
+  "independent_checks": [
+    {
+      "path": "verification/acceptance-r1/test-results.json",
+      "regression": "119 passed",
+      "acceptance": "55 passed"
+    },
+    {
+      "path": "verification/high-tag-header-r2/test-results.json",
+      "acceptance": "1 passed, 2 failed",
+      "fixture": "合法输入由未改的DER encoder确认；正反序同一根因"
+    },
+    {
+      "path": "verification/full-regression-r2/test-results.json",
+      "regression": "1313 passed, 6 failed, 175 subtests passed",
+      "baseline_proof": "verification/initial-io-baseline-r1",
+      "attribution": "六个失败均为初始提交同名测试的Windows mkstemp fd未关闭造成os.remove WinError32，不扣分，不声称全套通过。"
+    },
+    {
+      "path": "verification/product-demo-r1/command.json",
+      "result": "exit0; seven actual decoder demonstration checks"
+    },
+    {
+      "path": "verification/recorded-runtime-r1/actual-commands.json",
+      "result": "[0,0,1]; all commands completed before video end"
+    }
+  ],
+  "scope_limits": [
+    "原轨模型测试与独立验收分开，范围不混算。",
+    "完整回归有初始同源6项错误，不声称全套通过。",
+    "167KB流限制未独立复现，不作为本轮能力缺陷。",
+    "coverage、sphinx、bandit未运行不作通过声明。"
+  ],
+  "original_product_edited": false,
+  "engineering_failures_scored": false
+}

@@ -1,0 +1,28 @@
+Canonical DER Decoder
+
+Minimal integer | input=020101 | strictCanonical=True
+  decoded=1 | remaining=
+  PASS
+
+Compatibility input | input=02020001 | strictCanonical=False
+  decoded=1 | remaining=
+  PASS
+
+Nonminimal integer | input=02020001 | strictCanonical=True
+  rejected: PyAsn1Error: Non-minimal INTEGER/ENUMERATED contents encoding at <TagSet object, tags 0:0:2>
+  PASS
+
+Nested nonminimal integer | input=300402020001 | strictCanonical=True
+  rejected: PyAsn1Error: Non-minimal INTEGER/ENUMERATED contents encoding at <TagSet object, tags 0:0:2>
+  PASS
+
+Sorted SET OF | input=3106020101020102 | strictCanonical=True
+  decoded=SetOf:  1 2 | remaining=
+  PASS
+
+Reversed SET OF | input=3106020102020101 | strictCanonical=True
+  rejected: PyAsn1Error: SET OF components are not in ascending DER encoding order
+  PASS
+
+Streaming values: [1, 2] | PASS
+{"checks": 7, "passed": 7, "source": "actual decoder calls; separate verification helper"}

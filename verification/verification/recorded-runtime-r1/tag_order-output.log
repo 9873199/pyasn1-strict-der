@@ -1,0 +1,10 @@
+.FF
+================================== FAILURES ===================================
+E   pyasn1.error.PyAsn1Error: SET components are not in ascending DER tag order
+D:\hc\userFeedback\cache\execution-security-next10-20261112\evaluation\uf-20261112-sec-der-canonical\frozen-artifact\pyasn1\codec\ber\decoder.py:812: pyasn1.error.PyAsn1Error: SET components are not in ascending DER tag order
+E   Failed: DID NOT RAISE PyAsn1Error
+D:\hc\userFeedback\cache\execution-security-next10-20261112\evaluation\uf-20261112-sec-der-canonical\verification\high-tag-header-r2\test_acceptance.py:25: Failed: DID NOT RAISE PyAsn1Error
+=========================== short test summary info ===========================
+FAILED ..\verification\high-tag-header-r2\test_acceptance.py::test_high_tag_sorted_set_with_long_length_is_accepted
+FAILED ..\verification\high-tag-header-r2\test_acceptance.py::test_high_tag_reversed_set_with_long_length_is_rejected
+2 failed, 1 passed in 0.17s

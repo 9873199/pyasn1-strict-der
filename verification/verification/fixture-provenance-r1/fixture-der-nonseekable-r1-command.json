@@ -1,0 +1,23 @@
+{
+  "argv": [
+    "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\tasks\\der-canonical\\env\\Scripts\\python.exe",
+    "-B",
+    "-m",
+    "pytest",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\fixture-der-nonseekable-r1\\test_positive_fixture.py",
+    "-k",
+    "large_set_of_nonseekable_keeps_original_bytes_available or nonseekable_multiple_objects_and_nested_order",
+    "--basetemp",
+    "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\fixture-der-nonseekable-r1\\tmp",
+    "--junitxml",
+    "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\fixture-der-nonseekable-r1\\results.xml"
+  ],
+  "cwd": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\baseline-der-io-r1\\initial-source",
+  "PYTHONPATH": "D:\\hc\\userFeedback\\cache\\execution-security-next10-20261112\\baseline-der-io-r1\\initial-source",
+  "exit_code": 0,
+  "initial_sha": "e24fa719428229db5efeb8aee74ce6d03329df5d",
+  "scope": "Legal >8KiB nonseekable SET OF and multiple objects only; candidate NOT graded"
+}
