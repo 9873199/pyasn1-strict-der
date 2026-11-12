@@ -1,6 +1,19 @@
 Revision 0.7.0, released XX-XX-2026
 ---------------------------------------
 
+- Added an optional ``strictCanonical`` keyword to the DER ``decode``
+  function and ``StreamingDecoder``. When enabled, the DER decoder
+  rejects encodings that parse to the same value but violate the DER
+  canonical encoding rules of ITU-T X.690: non-minimal high-tag-number
+  and length octets, non-minimal or empty INTEGER/ENUMERATED contents,
+  non-canonical BOOLEAN, invalid BIT STRING unused-bits octets,
+  constructed string encodings, and SET/SET OF components not in the
+  required order. The check validates only the object consumed from the
+  substrate (the unprocessed tail is still returned), propagates through
+  implicit and explicit tagging, CHOICE, SEQUENCE and open types, and
+  preserves the streaming decoder's underrun semantics. The option
+  defaults to false, and BER and CER ignore it, so existing callers keep
+  the historical lenient decoding behavior
 - Fixed OverflowError from BER/CER/DER length values that fit in the
   supported 8-octet length field but exceed the platform maximum readable
   size. Such oversized definite lengths are now rejected with PyAsn1Error.

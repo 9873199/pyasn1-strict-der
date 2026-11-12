@@ -46,6 +46,53 @@ MAX_NESTING_DEPTH = 100
 MAX_LENGTH_OCTETS = 8
 
 
+def _iterDefiniteTlvSpans(payload):
+    """Iterate over (tagStart, valueStart, tlvEnd) spans of child TLVs.
+
+    The payload has already been decoded as a definite-length container,
+    so every child is a complete definite-length TLV; this helper only
+    re-scans tag and length octets to find byte boundaries, it never
+    re-decodes values.
+    """
+    pos = 0
+    payloadLen = len(payload)
+
+    while pos < payloadLen:
+        tagStart = pos
+        pos += 1  # identifier octet
+
+        if payload[tagStart] & 0x1F == 0x1F:
+            # high tag number form: skip continuation octets
+            while pos < payloadLen and payload[pos] & 0x80:
+                pos += 1
+            pos += 1  # final tag octet
+
+        if pos >= payloadLen:
+            raise PyAsn1Error('Truncated child TLV length in container payload')
+
+        firstLengthOctet = payload[pos]
+        pos += 1
+
+        if firstLengthOctet < 0x80:
+            childLength = firstLengthOctet
+
+        else:
+            lengthOctetCount = firstLengthOctet & 0x7F
+            if lengthOctetCount == 0 or pos + lengthOctetCount > payloadLen:
+                raise PyAsn1Error(
+                    'Malformed child TLV length in container payload')
+            childLength = int.from_bytes(
+                payload[pos:pos + lengthOctetCount], 'big')
+            pos += lengthOctetCount
+
+        tlvEnd = pos + childLength
+        if tlvEnd > payloadLen:
+            raise PyAsn1Error('Child TLV overruns container payload')
+
+        yield tagStart, pos, tlvEnd
+        pos = tlvEnd
+
+
 class AbstractPayloadDecoder(object):
     protoComponent = None
 
@@ -153,6 +200,26 @@ class IntegerPayloadDecoder(AbstractSimplePayloadDecoder):
             if isinstance(chunk, SubstrateUnderrunError):
                 yield chunk
 
+        if options.get('strictCanonical'):
+            if not chunk:
+                # X.690 8.3.1: INTEGER/ENUMERATED contents comprise
+                # one or more octets; zero is encoded as a single 0x00
+                raise error.PyAsn1Error(
+                    'Empty INTEGER/ENUMERATED contents at %s' % (tagSet,))
+
+            if len(chunk) > 1:
+                # X.690 8.3.2: the contents octets must be the minimal
+                # two's-complement representation; neither an all-ones
+                # extension of a negative value nor an all-zeros extension
+                # of a non-negative value is allowed
+                firstOctet = chunk[0]
+                secondOctet = chunk[1]
+                if (firstOctet == 0x00 and not (secondOctet & 0x80) or
+                        firstOctet == 0xFF and (secondOctet & 0x80)):
+                    raise error.PyAsn1Error(
+                        'Non-minimal INTEGER/ENUMERATED contents encoding at %s'
+                        % (tagSet,))
+
         if chunk:
             value = int.from_bytes(bytes(chunk), 'big', signed=True)
 
@@ -251,6 +318,19 @@ class BitStringPayloadDecoder(AbstractSimplePayloadDecoder):
                 if isinstance(chunk, SubstrateUnderrunError):
                     yield chunk
 
+            if options.get('strictCanonical'):
+                # X.690 8.6: an empty BIT STRING is encoded as a single
+                # zero unused-bits octet, and the unused trailing bits of
+                # the final contents octet must all be zero
+                if length == 1:
+                    if trailingBits:
+                        raise error.PyAsn1Error(
+                            'Non-zero unused bits count %s on empty BIT '
+                            'STRING payload' % trailingBits)
+                elif trailingBits and chunk[-1] & ((1 << trailingBits) - 1):
+                    raise error.PyAsn1Error(
+                        'Non-zero unused bits in BIT STRING final octet')
+
             value = self.protoComponent.fromOctetString(
                 chunk, internalFormat=True, padding=trailingBits)
 
@@ -258,7 +338,7 @@ class BitStringPayloadDecoder(AbstractSimplePayloadDecoder):
 
             return
 
-        if not self.supportConstructedForm:
+        if not self.supportConstructedForm or options.get('strictCanonical'):
             raise error.PyAsn1Error('Constructed encoding form prohibited '
                                     'at %s' % self.__class__.__name__)
 
@@ -356,7 +436,7 @@ class OctetStringPayloadDecoder(AbstractSimplePayloadDecoder):
 
             return
 
-        if not self.supportConstructedForm:
+        if not self.supportConstructedForm or options.get('strictCanonical'):
             raise error.PyAsn1Error('Constructed encoding form prohibited at %s' % self.__class__.__name__)
 
         if LOG:
@@ -669,6 +749,70 @@ class ConstructedPayloadDecoderBase(AbstractConstructedPayloadDecoder):
     protoRecordComponent = None
     protoSequenceComponent = None
 
+    @staticmethod
+    def _derTagKey(tagOctets):
+        """Comparable key for the DER tag ordering rules (X.690 8.1.2).
+
+        Tags order first by class (universal, application, context,
+        private) and then by the numeric tag number within the class;
+        the constructed bit does not participate. The tag number is
+        compared as an integer rather than by its base-128 octets,
+        whose lexicographic order disagrees across length boundaries
+        (e.g. 16383 encodes as ``ff 7f`` and 16384 as
+        ``81 80 00``). This matches the numeric ``(tagClass, tagId)``
+        ordering used by the DER ``SetEncoder``.
+        """
+        firstOctet = tagOctets[0]
+        if firstOctet & 0x1F == 0x1F:
+            tagId = 0
+            for octet in tagOctets[1:]:
+                tagId = (tagId << 7) | (octet & 0x7F)
+        else:
+            tagId = firstOctet & 0x1F
+        return firstOctet & 0xC0, tagId
+
+    def _verifyCanonicalOrder(self, asn1Object, payloadStart,
+                              payloadEnd, substrate):
+        """Check DER SET/SET OF component ordering (X.690 11.6).
+
+        Only the container's own payload bytes are re-scanned for tag
+        and length boundaries -- nested values have already been
+        validated when they were decoded. SET OF compares the complete
+        DER encoding of each element; SET compares the elements by
+        their DER tags. SEQUENCE and SEQUENCE OF have no DER ordering
+        rule and are left untouched.
+        """
+        if asn1Object.typeId not in (univ.Set.typeId, univ.SetOf.typeId):
+            return
+
+        currentPosition = substrate.tell()
+        try:
+            substrate.seek(payloadStart, os.SEEK_SET)
+            payload = substrate.read(payloadEnd - payloadStart)
+        finally:
+            substrate.seek(currentPosition, os.SEEK_SET)
+
+        isSetOf = asn1Object.typeId == univ.SetOf.typeId
+
+        previousEncoding = None
+        previousTag = None
+
+        for tagStart, valueStart, tlvEnd in _iterDefiniteTlvSpans(payload):
+            if isSetOf:
+                currentEncoding = payload[tagStart:tlvEnd]
+                if (previousEncoding is not None and
+                        currentEncoding < previousEncoding):
+                    raise error.PyAsn1Error(
+                        'SET OF components are not in ascending DER '
+                        'encoding order')
+                previousEncoding = currentEncoding
+            else:
+                currentTag = self._derTagKey(payload[tagStart:valueStart])
+                if previousTag is not None and currentTag < previousTag:
+                    raise error.PyAsn1Error(
+                        'SET components are not in ascending DER tag order')
+                previousTag = currentTag
+
     def _getComponentTagMap(self, asn1Object, idx):
         raise NotImplementedError
 
@@ -768,6 +912,11 @@ class ConstructedPayloadDecoderBase(AbstractConstructedPayloadDecoder):
 
                     LOG('Unused trailing %d octets encountered: %s' % (
                         len(trailing), debug.hexdump(trailing)))
+
+            if options.get('strictCanonical') and length:
+                self._verifyCanonicalOrder(
+                    asn1Object, original_position,
+                    original_position + length, substrate)
 
             yield asn1Object
 
@@ -947,6 +1096,11 @@ class ConstructedPayloadDecoderBase(AbstractConstructedPayloadDecoder):
                 )
 
                 idx += 1
+
+        if options.get('strictCanonical') and length:
+            self._verifyCanonicalOrder(
+                asn1Object, original_position,
+                original_position + length, substrate)
 
         yield asn1Object
 
@@ -1585,6 +1739,11 @@ class SingleItemDecoder(object):
 
     supportIndefLength = True
 
+    # strictCanonical is only honored by codecs that opt in; BER and
+    # CER keep their historical lenient behavior even if the kwarg is
+    # passed, while the DER subclass flips this to True
+    strictCanonicalSupported = False
+
     TAG_MAP = TAG_MAP
     TYPE_MAP = TYPE_MAP
 
@@ -1600,6 +1759,9 @@ class SingleItemDecoder(object):
                  tagSet=None, length=None, state=stDecodeTag,
                  decodeFun=None, substrateFun=None,
                  **options):
+
+        if not self.strictCanonicalSupported:
+            options['strictCanonical'] = False
 
         _nestingLevel = options.get('_nestingLevel', 0)
 
@@ -1667,6 +1829,7 @@ class SingleItemDecoder(object):
                         isShortTag = False
                         tagOctetCount = 0
                         tagId = 0
+                        firstTagOctet = 0
 
                         while True:
                             for integerByte in readFromStream(substrate, 1, options):
@@ -1685,11 +1848,27 @@ class SingleItemDecoder(object):
                                     'Tag ID octet count exceeds limit (%d)' % (
                                         MAX_TAG_OCTETS,)
                                 )
+                            if tagOctetCount == 1:
+                                firstTagOctet = integerTag
                             tagId <<= 7
                             tagId |= (integerTag & 0x7F)
 
                             if not integerTag & 0x80:
                                 break
+
+                        if options.get('strictCanonical'):
+                            # X.690 8.1.2: the high tag number form is
+                            # reserved for tag numbers of 31 and above,
+                            # and a leading 0x80 octet would be a
+                            # superfluous zero continuation
+                            if tagOctetCount == 1 and tagId < 0x1F:
+                                raise error.PyAsn1Error(
+                                    'Non-minimal DER tag encoding: tag ID %s '
+                                    'fits the short form' % tagId)
+                            if firstTagOctet == 0x80:
+                                raise error.PyAsn1Error(
+                                    'Non-minimal DER tag encoding: superfluous '
+                                    'leading continuation octet')
 
                     lastTag = tag.Tag(
                         tagClass=tagClass, tagFormat=tagFormat, tagId=tagId
@@ -1760,6 +1939,20 @@ class SingleItemDecoder(object):
                             'Length %d exceeds maximum readable size %d' % (
                                 length, sys.maxsize)
                         )
+
+                    if options.get('strictCanonical'):
+                        # X.690 8.1.3: the length must use the minimum
+                        # number of octets -- no leading zero octets,
+                        # and the long form is reserved for lengths of
+                        # 128 and above
+                        if encodedLength[0] == 0:
+                            raise error.PyAsn1Error(
+                                'Non-minimal DER length encoding: superfluous '
+                                'leading zero octet')
+                        if len(encodedLength) == 1 and length < 0x80:
+                            raise error.PyAsn1Error(
+                                'Non-minimal DER length encoding: length %s '
+                                'fits the short form' % length)
 
                 else:  # 128 means indefinite
                     length = -1

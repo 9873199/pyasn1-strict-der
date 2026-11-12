@@ -926,7 +926,14 @@ in a map. Removing the `typeId not in TYPE_MAP` guard from the derived
 backfill loops looks like a cleanup but would newly route schema-driven
 CER/DER decodes through the strict subclasses, breaking every caller that
 currently (if accidentally) relies on DER accepting constructed OCTET STRINGs
-under a schema.
+under a schema. The opt-in `strictCanonical` option deliberately closes this
+gap instead of changing the default: its checks live in the shared BER
+payload decoders and in `SingleItemDecoder` itself rather than in the
+DER-only map entries, so they fire on both dispatch paths, including the
+`TYPE_MAP`-driven schema path (with a dedicated DER `BooleanPayloadDecoder`
+installed in `TYPE_MAP` for the one type whose DER rule cannot be expressed
+in the shared decoder). See [What each dialect
+changes](#what-each-dialect-changes) for the full rule set.
 
 Registration history has also left dead weight in the maps. The module-level
 `TAG_MAP.update({...})` block in `cer/encoder.py` registers
@@ -1011,6 +1018,34 @@ subclasses, `BitStringPayloadDecoder` and `OctetStringPayloadDecoder`, setting
 `supportIndefLength = False` on its `SingleItemDecoder`; how that one
 attribute shuts indefinite framing off entirely is covered in [Two framing
 modes](#two-framing-modes).
+
+The DER decoder also carries the opt-in `strictCanonical` mode. The shared
+BER payload decoders hold the actual checks but read
+`options.get('strictCanonical')`, and `SingleItemDecoder` gates the option on
+a `strictCanonicalSupported` class attribute that is false on the BER/CER
+decoders and flipped to true only on DER's `SingleItemDecoder`, so passing
+the kwarg to BER or CER is a no-op. The checks cover the DER rules of
+X.690: minimal high-tag-number and length octets (in the `stDecodeTag` and
+`stDecodeLength` states of the state machine), minimal non-empty
+INTEGER/ENUMERATED contents, single-octet `0x00`/`0xFF` BOOLEAN, BIT STRING
+unused-bits rules, a ban on constructed string forms (the same
+`supportConstructedForm` branch now also fires under the option, which is
+what closes the schema-driven gap described below for OCTET/character
+strings), and SET/SET OF ordering. Ordering is verified once per container
+in `ConstructedPayloadDecoderBase._verifyCanonicalOrder` by re-scanning only
+the container's own payload for child TLV boundaries through
+`_iterDefiniteTlvSpans` — values are never re-encoded, and nested objects
+are validated when they themselves are decoded. SET OF compares each
+child's complete DER encoding; SET compares DER tag keys (class then tag
+number, the constructed bit excluded). `der/decoder.py` additionally
+registers its own `BooleanPayloadDecoder` in `TYPE_MAP`, because the
+inherited entry is BER's lenient Boolean decoder; that subclass enforces
+the DER Boolean rules only when the option is set and delegates to BER
+otherwise. Header-level violations (tag, length) raise as soon as the
+header is fully read, value-level violations wait until the value bytes
+have arrived, preserving the underrun semantics of [Suspend and
+resume](#suspend-and-resume); only the consumed object is validated and the
+unprocessed tail returns as usual.
 
 ### Configuration surfaces
 
